@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MyprojecsApp
 {
+
     class Program
     {
         static void Main(string[] args)
-        {
+        {/*
                                             //Задача 1
              Console.WriteLine("Теперь запишите сумму:");
            int SUM = int.Parse(Console.ReadLine());
@@ -44,6 +49,23 @@ namespace MyprojecsApp
                    break;
            }
             Console.ReadKey();
+                                            //Задача 2
+            Employee employee = new Employee();
+            employee.ShowListOfExperience();
+            System.Console.Write("Введите имя: ");
+            employee.Name = Console.ReadLine();
+            System.Console.Write("Введите фамиля: ");
+            employee.LastName = Console.ReadLine();
+            System.Console.Write("Введите профессию: ");
+            employee.position = Console.ReadLine();
+            System.Console.Write("Введите стаж: ");
+            employee.experience = int.Parse(Console.ReadLine());
+            employee.GetInfo();
+            employee.ShowoSalary();
+            Console.WriteLine($"Зарплата с учетом стажа работы = " + employee.PlusExperience());
+            employee.ShowTax();
+            Console.ReadKey();
+        */
         }
     }
      public class Converter 
@@ -80,6 +102,95 @@ namespace MyprojecsApp
         public double RubToSom(double rub)
         {
             return Math.Round(rub*RUB,4);
+        }
+    }
+   class Employee 
+    {
+        public string Name {get;set;}
+        public string LastName {get;set;}
+        public string position {get;set;}
+        public int experience {get;set;}
+        public Employee(string Name, string LastName, string position, int experience)
+        {
+            this.Name = Name;
+            this.LastName = LastName;
+            this.position = position;
+            this.experience = experience;
+        }
+        private static string[] PositionArr = {"Программист","Экономисть","Врач","Уборщик","Менеджмент","Учитель","Менеджер","Юрист","Маршедр","Ахрана"};
+        private static int[] salary = {1200,3000,2300,1500,2700,1234,4134,1340,1234,5435};
+        private static int[] ExperienceArr = {0,100,200,300,400,500,600,700,800,900};
+        public void GetInfo ()
+        {
+            System.Console.WriteLine($"Должность: {position}\nИмя: {Name}\nФамилия: {LastName}");
+        }
+        public int PlusExperience ()
+        {
+            int sum = 0;
+            for(int i = 0; i < ExperienceArr.Length; i++)
+            {
+                if(PositionArr[i] == position)
+                {
+                    sum += salary[i];
+                }
+                if(experience > ExperienceArr.Length-1 && i < 1)
+                {
+                    sum += ExperienceArr[ExperienceArr.Length-1];
+                }
+                else if(i == experience)
+                {
+                    sum += ExperienceArr[i];
+                }
+            }
+            return sum;
+        }
+        public Employee(){}
+        public void ShowListOfExperience ()
+        {
+            System.Console.Write("Список профессий: ");
+            for(int i = 0; i < PositionArr.Length; i ++)
+            {
+                if(i == PositionArr.Length-1)
+                {
+                    System.Console.Write(PositionArr[i] + " ");
+                }
+                else {
+                    System.Console.Write(PositionArr[i] + ", ");
+                }
+            }
+            System.Console.WriteLine();
+        }
+        public void ShowoSalary()
+        {
+            for(int i = 0; i < PositionArr.Length;i++)
+            {
+                if(PositionArr[i] == position)
+                {
+                    System.Console.WriteLine($"У {PositionArr[i]} зарплата = {salary[i]}");
+                }
+            }
+        }
+        public void ShowTax()
+        {
+            double salary = 0;
+            for(int i = 0; i < PositionArr.Length; i++)
+            {
+                if(PositionArr[i] == position)
+                {
+                    salary += Employee.salary[i];
+                }
+                if(experience > ExperienceArr.Length-1 && i < 1)
+                {
+                    salary += ExperienceArr[ExperienceArr.Length-1];
+                }
+                else if(i == experience)
+                {
+                    salary += ExperienceArr[i];
+                }
+            }
+            Console.WriteLine($"Размер зарплаты учитывая 13%({salary*0.13} сомон) налога и 1%({salary*0.01} сомон) пенсионного фонда с общей суммы");
+
+            Console.WriteLine($"Выплате: {salary-((salary*0.13)+(salary*0.01))}");
         }
     }
 }
